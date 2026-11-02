@@ -1,0 +1,27 @@
+
+name: Build RustCraft Windows
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build game
+        run: cargo build --release
+
+      - name: Upload Windows EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: RustCraft-Windows
+          path: target/release/rustcraft.exe
+          if-no-files-found: error
